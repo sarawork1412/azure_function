@@ -8,10 +8,12 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'ravifunctnapp/**'
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.' # set this to the path to your web app project, defaults to the repository root
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: 'ravifunctnapp' # set this to the path to your web app project, defaults to the repository root
   PYTHON_VERSION: '3.8' # set this to the python version to use (supports 3.6, 3.7, 3.8)
 
 jobs:
@@ -67,4 +69,4 @@ jobs:
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_35F8870D2DCA4E7A9B279E485826FA67 }}
           scm-do-build-during-deployment: true
-          enable-oryx-build: true
+          enable-oryx-build: true          
