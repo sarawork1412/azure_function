@@ -1,24 +1,18 @@
-import logging
+import requests
+import subprocess
 
-import azure.functions as func
+# URL of the raw script on GitHub
+github_script_url = "https://raw.githubusercontent.com/yourusername/yourrepo/branch/script.py"
 
+# Fetch the script content
+response = requests.get(github_script_url)
+script_content = response.text
 
-def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info('Python HTTP trigger function processed a request.')
+# Execute the script
+result = subprocess.run(["python", "-c", script_content], capture_output=True, text=True)
 
-    name = req.params.get('name')
-    if not name:
-        try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
-        else:
-            name = req_body.get('name')
+# Get the output and any errors
+output = result.stdout
+error = result.stderr
 
-    if name:
-        return func.HttpResponse(f"Hello, {name}. This HTTP triggered function executed successfully.")
-    else:
-        return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-             status_code=200
-        )
+# Do something with the output and error, such as logging or returning it from the Azure Function.
