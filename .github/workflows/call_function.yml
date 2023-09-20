@@ -1,0 +1,24 @@
+name: Call Azure Function
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  call-azure-function:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Call Azure Function
+        run: |
+          # Use Azure Functions Core Tools to call your Azure Function
+          az functionapp function invoke --name saraaafuncapp --function-name HttpTrigger3 --resource-group saraaafuncapp --subscription Azure subscription 1 --query 'output'
+        env:
+          AZURE_FUNCTIONS_CORE_TOOLS_AUTH_LEVEL: anonymous
+        with:
+          # Add any additional parameters or environment variables here
+          PARAMETER_NAME: parameter_value
